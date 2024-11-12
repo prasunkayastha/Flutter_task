@@ -1,5 +1,5 @@
-import 'package:flutter_task/screens/login.dart';
-import 'package:flutter_task/screens/splashscreen.dart';
+import 'package:flutter_task/features/login/views/login.dart';
+import 'package:flutter_task/features/splashscreen/views/splashscreen.dart';
 
 class AppRoutes {
   AppRoutes._();
