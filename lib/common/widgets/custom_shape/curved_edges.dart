@@ -4,7 +4,7 @@ class CurvedEdges extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.lineTo(0, size.height * 0.6); 
+    path.lineTo(0, size.height * 0.6);
 
     // First curve (left side)
     path.quadraticBezierTo(
