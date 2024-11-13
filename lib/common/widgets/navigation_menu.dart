@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task/features/cart/view/cart.dart';
 import 'package:flutter_task/features/home/views/home.dart';
 
 class NavigationMenu extends StatefulWidget {
@@ -12,7 +13,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
     const HomeScreen(),
-    const Center(child: Text('Cart')),
+    const Cart(),
     const Center(child: Text('Setting')),
     const Center(child: Text('Profile'))
   ];

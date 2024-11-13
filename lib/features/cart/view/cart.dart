@@ -3,40 +3,14 @@ import 'package:flutter_task/common/data.dart';
 import 'package:flutter_task/config/constants/color_constant.dart';
 import 'package:flutter_task/config/constants/font_constant.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class Cart extends StatefulWidget {
+  const Cart({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<Cart> createState() => _CartState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController searchController = TextEditingController();
-  List<Map<String, String>> filteredItems = [];
-
-  @override
-  void initState() {
-    super.initState();
-    filteredItems = List.from(items);
-    searchController.addListener(_filterItems);
-  }
-
-  void _filterItems() {
-    String query = searchController.text.toLowerCase();
-    setState(() {
-      filteredItems = items
-          .where((item) => item['name']!.toLowerCase().contains(query))
-          .toList();
-    });
-  }
-
-  @override
-  void dispose() {
-    searchController.removeListener(_filterItems);
-    searchController.dispose();
-    super.dispose();
-  }
-
+class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,20 +32,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
-                            children: [
-                              Text(
-                                'All Categories',
-                                style: FontConstant.buttonTextStyle,
-                              ),
-                              const Icon(
-                                Icons.arrow_drop_down,
-                                color: ColorConstant.secondaryColor,
-                              ),
-                            ],
-                          ),
-                          Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, '/home');
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_back_ios_new_outlined,
+                                  color: ColorConstant.secondaryColor,
+                                ),
+                              ),
                               IconButton(
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
@@ -89,27 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ],
-                      ),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: ColorConstant.secondaryColor,
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: ColorConstant.accentColor,
-                            ),
-                            hintText: 'Search Product',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
                       ),
                     ),
                   ],
@@ -139,8 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: Column(
                         children: [
+                          Text(
+                            'Your Cart- ${cartitems.length} items',
+                            style: FontConstant.subHeadingTextStyle,
+                          ),
+                          const SizedBox(height: 20),
                           ListView.builder(
-                            itemCount: filteredItems.length,
+                            itemCount: 2,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
@@ -152,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     radius: 25,
                                   ),
                                   title: Text(
-                                    filteredItems[index]['name']!,
+                                    'Product Name',
                                     style: FontConstant.cardTitle,
                                   ),
                                   trailing: Padding(
@@ -162,17 +118,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            filteredItems[index]['price']!,
-                                            style: FontConstant.cardPrice,
+                                          child: IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              Icons.cancel,
+                                              color: Colors.red,
+                                            ),
                                           ),
                                         ),
-                                        const SizedBox(width: 10),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            filteredItems[index]['weight']!,
-                                            style: FontConstant.cardWeight,
+                                            'Price',
+                                            style: FontConstant.cardPrice,
                                           ),
                                         ),
                                       ],
@@ -181,6 +139,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             },
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorConstant.primaryColor,
+                                foregroundColor: ColorConstant.secondaryColor,
+                                minimumSize: const Size(200, 50),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(
+                                    Icons.shopping_cart_checkout,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Checkout',
+                                    style: FontConstant.buttonTextStyle,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
