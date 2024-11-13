@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task/common/widgets/custom_shape/curved_edges.dart';
 import 'package:flutter_task/config/constants/color_constant.dart';
 import 'package:flutter_task/config/constants/font_constant.dart';
 
@@ -8,125 +9,142 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstant.primaryColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: ColorConstant.secondaryColor,
-                child: CircleAvatar(
-                  backgroundColor: ColorConstant.primaryColor,
-                  radius: 45,
-                  child: Text(
-                    'A \nNIKKLE',
-                    style: FontConstant.headingTextStyle,
-                    textAlign: TextAlign.center,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ClipPath(
+                    clipper: CurvedEdges(),
+                    child: Container(
+                      color: ColorConstant.primaryColor,
+                      padding: const EdgeInsets.all(0),
+                      child: SizedBox(
+                        height: 200,
+                        child: Container(),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
+              SizedBox(
+                height: 600,
                 child: Column(
                   children: [
-                    Text(
-                      'Let\'s get something',
-                      style: FontConstant.subHeadingTextStyle,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Stack(
+                          children: [
+                            const CircleAvatar(
+                              radius: 50,
+                            ),
+                            Positioned(
+                              top: 10,
+                              left: 10,
+                              child: Image.asset(
+                                'assets/logo/2logo.png',
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Text(
-                      'Good to see you back.',
-                      style: FontConstant.labelTextStyle,
+                    const SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Let\'s get something',
+                              style: FontConstant.subHeadingTextStyle,
+                            ),
+                            Text(
+                              'Good to see you back.',
+                              style: FontConstant.labelTextStyle,
+                            ),
+                            const SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Email',
+                                  labelStyle: FontConstant.labelTextStyle,
+                                  hintText: 'Margintopsolutions@gmail.com',
+                                  hintStyle: FontConstant.labelTextStyle,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'password',
+                                  labelStyle: FontConstant.labelTextStyle,
+                                  hintText: '***********',
+                                  hintStyle: FontConstant.labelTextStyle,
+                                  suffixIcon: TextButton(
+                                    onPressed: () {},
+                                    child: const Text('Forget?'),
+                                  ),
+                                ),
+                                obscureText: true,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/home');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorConstant.primaryColor,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 50, vertical: 15),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Login',
+                                    style: FontConstant.formbuttonTextStyle,
+                                  )),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Don\'t have an account?',
+                                  style: FontConstant.labelTextStyle,
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Signup',
+                                    style: FontConstant.labelTextStyle,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 32),
-              SizedBox(
-                //width: 400,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextFormField(
-                    style: FontConstant.formfieldTextStyle,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: FontConstant.formfieldTextStyle,
-                      hintText: 'XYZ@gmail.com',
-                      hintStyle: FontConstant.formfieldTextStyle,
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: ColorConstant.secondaryColor),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextFormField(
-                    style: FontConstant.formfieldTextStyle,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: FontConstant.formfieldTextStyle,
-                      hintText: '**********',
-                      hintStyle: FontConstant.formfieldTextStyle,
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: ColorConstant.secondaryColor),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                      ),
-                      suffixIcon: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Forget?',
-                          style: FontConstant.formfieldTextStyle,
-                        ),
-                      ),
-                    ),
-                    obscureText: true,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: 300,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorConstant.primaryColor,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 50, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: Text(
-                      'Log In',
-                      style: FontConstant.subHeadingTextStyle,
-                    )),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Don\'t have an account?',
-                    style: FontConstant.labelTextStyle,
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Signup',
-                      style: FontConstant.labelTextStyle,
-                    ),
-                  ),
-                ],
-              )
             ],
           ),
         ),

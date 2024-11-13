@@ -25,6 +25,9 @@ class FontConstant {
         color: ColorConstant.secondaryColor,
         fontSize: 16,
       );
-  static TextStyle get formfieldTextStyle =>
-      const TextStyle(color: ColorConstant.secondaryColor);
+  static TextStyle get formbuttonTextStyle => GoogleFonts.poppins(
+        color: ColorConstant.secondartTextColor,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      );
 }

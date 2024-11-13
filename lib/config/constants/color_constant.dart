@@ -9,4 +9,6 @@ class ColorConstant {
 
   //Text Color
   static Color primaryTextColor = Colors.black;
+  static Color secondartTextColor = Colors.white;
+  static Color accentTextColor = const Color(0xFF0077D7);
 }
