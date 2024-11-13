@@ -106,7 +106,7 @@ class LoginScreen extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     Navigator.pushReplacementNamed(
-                                        context, '/home');
+                                        context, '/navigation');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: ColorConstant.primaryColor,
