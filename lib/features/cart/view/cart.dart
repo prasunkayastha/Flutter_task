@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_task/common/data.dart';
 import 'package:flutter_task/config/constants/color_constant.dart';
 import 'package:flutter_task/config/constants/font_constant.dart';
+import 'package:flutter_task/features/cart/model/cart_model.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -11,6 +11,38 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  double _calculateTotalPrice() {
+    double totalPrice = 0.0;
+    for (var item in cartItems) {
+      totalPrice += item.price * item.quantity;
+    }
+    return totalPrice;
+  }
+
+  void _removeItem(int index) {
+    setState(() {
+      if (index >= 0 && index < cartItems.length) {
+        cartItems.removeAt(index);
+      } else {
+        print("Index out of range");
+      }
+    });
+  }
+
+  void _addItem(int index) {
+    setState(() {
+      cartItems[index].quantity++;
+    });
+  }
+
+  void _substractItem(int index) {
+    setState(() {
+      if (cartItems[index].quantity > 1) {
+        cartItems[index].quantity--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,18 +64,22 @@ class _CartState extends State<Cart> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               IconButton(
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
-                                      context, '/home');
+                                      context, '/navigation');
                                 },
                                 icon: const Icon(
                                   Icons.arrow_back_ios_new_outlined,
                                   color: ColorConstant.secondaryColor,
                                 ),
                               ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
                               IconButton(
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
@@ -91,15 +127,16 @@ class _CartState extends State<Cart> {
                       child: Column(
                         children: [
                           Text(
-                            'Your Cart- ${cartitems.length} items',
+                            'Your Cart- ${cartItems.length} items',
                             style: FontConstant.subHeadingTextStyle,
                           ),
                           const SizedBox(height: 20),
                           ListView.builder(
-                            itemCount: 2,
+                            itemCount: cartItems.length,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
+                              final cartItem = cartItems[index];
                               return Card(
                                 child: ListTile(
                                   leading: const CircleAvatar(
@@ -108,37 +145,64 @@ class _CartState extends State<Cart> {
                                     radius: 25,
                                   ),
                                   title: Text(
-                                    'Product Name',
+                                    cartItem.name,
                                     style: FontConstant.cardTitle,
                                   ),
-                                  trailing: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.cancel,
-                                              color: Colors.red,
-                                            ),
-                                          ),
+                                  subtitle: Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () => _substractItem(index),
+                                        icon: Icon(
+                                          Icons.remove_circle,
+                                          color: ColorConstant.primaryColor,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Price',
-                                            style: FontConstant.cardPrice,
-                                          ),
+                                      ),
+                                      Text(cartItem.quantity.toString(),
+                                          style: FontConstant.cardTitle),
+                                      IconButton(
+                                        onPressed: () => _addItem(index),
+                                        icon: Icon(
+                                          Icons.add_circle,
+                                          color: ColorConstant.primaryColor,
                                         ),
-                                      ],
-                                    ),
+                                      )
+                                    ],
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'INR ${cartItem.price}',
+                                        style: FontConstant.cardPrice,
+                                      ),
+                                      IconButton(
+                                        onPressed: () => _removeItem(index),
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
                             },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Total',
+                                  style: FontConstant.cardTitle,
+                                ),
+                                Text(
+                                  'INR ${_calculateTotalPrice().toString()}',
+                                  style: FontConstant.cardTitle,
+                                )
+                              ],
+                            ),
                           ),
                           SizedBox(
                             width: double.infinity,

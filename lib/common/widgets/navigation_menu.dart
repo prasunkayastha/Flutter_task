@@ -26,17 +26,25 @@ class _NavigationMenuState extends State<NavigationMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        height: 80,
-        elevation: 0,
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: _onDestinationSelected,
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.shopping_cart), label: 'Cart'),
-          NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
-          NavigationDestination(icon: Icon(Icons.person), label: 'Profile')
-        ],
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.blue,
+        )),
+        child: NavigationBar(
+          height: 80,
+          elevation: 0,
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: _onDestinationSelected,
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(
+                icon: Icon(Icons.shopping_cart), label: 'Cart'),
+            NavigationDestination(
+                icon: Icon(Icons.settings), label: 'Settings'),
+            NavigationDestination(icon: Icon(Icons.person), label: 'Profile')
+          ],
+        ),
       ),
       body: _pages[_selectedIndex],
     );

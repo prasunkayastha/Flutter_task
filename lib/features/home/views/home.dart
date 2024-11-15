@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_task/common/data.dart';
 import 'package:flutter_task/config/constants/color_constant.dart';
 import 'package:flutter_task/config/constants/font_constant.dart';
+import 'package:flutter_task/features/home/model/product_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,29 +12,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
-  List<Map<String, String>> filteredItems = [];
 
-  @override
-  void initState() {
-    super.initState();
-    filteredItems = List.from(items);
-    searchController.addListener(_filterItems);
-  }
+  String _searchQuery = '';
 
-  void _filterItems() {
-    String query = searchController.text.toLowerCase();
+  void _onSearchChanged(String query) {
     setState(() {
-      filteredItems = items
-          .where((item) => item['name']!.toLowerCase().contains(query))
-          .toList();
+      _searchQuery = query;
     });
   }
 
-  @override
-  void dispose() {
-    searchController.removeListener(_filterItems);
-    searchController.dispose();
-    super.dispose();
+  List<Product> _filteredProducts() {
+    if (_searchQuery.isEmpty) {
+      return products;
+    }
+    return products
+        .where((product) =>
+            product.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .toList();
   }
 
   @override
@@ -96,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.all(16.0),
                         child: TextField(
                           controller: searchController,
+                          onChanged: _onSearchChanged,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: ColorConstant.secondaryColor,
@@ -140,10 +135,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           ListView.builder(
-                            itemCount: filteredItems.length,
+                            itemCount: _filteredProducts().length,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
+                              final product = _filteredProducts()[index];
                               return Card(
                                 child: ListTile(
                                   leading: const CircleAvatar(
@@ -152,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     radius: 25,
                                   ),
                                   title: Text(
-                                    filteredItems[index]['name']!,
+                                    product.name,
                                     style: FontConstant.cardTitle,
                                   ),
                                   trailing: Padding(
@@ -163,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            filteredItems[index]['price']!,
+                                            'INR ${product.price.toString()}',
                                             style: FontConstant.cardPrice,
                                           ),
                                         ),
@@ -171,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            filteredItems[index]['weight']!,
+                                            '${product.weight.toString()} Kg',
                                             style: FontConstant.cardWeight,
                                           ),
                                         ),
