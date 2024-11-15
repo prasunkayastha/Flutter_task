@@ -24,7 +24,7 @@ class _CartState extends State<Cart> {
       if (index >= 0 && index < cartItems.length) {
         cartItems.removeAt(index);
       } else {
-        print("Index out of range");
+        debugPrint("Index out of range");
       }
     });
   }
